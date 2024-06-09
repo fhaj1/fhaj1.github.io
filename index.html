@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,32 +11,38 @@
         <h1>Rate This Spot</h1>
     </header>
     <div class="container">
-        <a href="#" class="add-location">Add New Location</a>
+        <button class="add-location" onclick="openAddLocationModal()">Add New Location</button>
 
-        <div class="location-card" onclick="toggleReviewDetail(this)">
-            <img src="thumbnail1.jpg" alt="Location 1" class="location-thumbnail">
-            <div class="location-info">
-                <h3>Location 1</h3>
-                <div class="rating">★★★★☆</div>
-                <p>Great place to hang out...</p>
-            </div>
-            <div class="review-detail">
-                <p>This is the full review of Location 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel risus libero.</p>
-            </div>
+        <div id="locations-container"></div>
+    </div>
+
+    <!-- Add Location Modal -->
+    <div id="addLocationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddLocationModal()">&times;</span>
+            <h2>Add a New Location</h2>
+            <form id="addLocationForm">
+                <label for="locationName">Location Name:</label>
+                <input type="text" id="locationName" name="locationName" required>
+
+                <label for="locationImage">Image URL:</label>
+                <input type="text" id="locationImage" name="locationImage" required>
+
+                <label for="locationRating">Rating:</label>
+                <select id="locationRating" name="locationRating" required>
+                    <option value="1">★☆☆☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="5">★★★★★</option>
+                </select>
+
+                <label for="locationReview">Review:</label>
+                <textarea id="locationReview" name="locationReview" required></textarea>
+
+                <button type="submit">Save Location</button>
+            </form>
         </div>
-
-        <div class="location-card" onclick="toggleReviewDetail(this)">
-            <img src="thumbnail2.jpg" alt="Location 2" class="location-thumbnail">
-            <div class="location-info">
-                <h3>Location 2</h3>
-                <div class="rating">★★★☆☆</div>
-                <p>Nice ambiance but...</p>
-            </div>
-            <div class="review-detail">
-                <p>This is the full review of Location 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel risus libero.</p>
-            </div>
-        </div>
-
     </div>
 
     <script src="scripts.js"></script>
