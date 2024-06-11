@@ -4,64 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rate This Spot</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>Rate This Spot</h1>
-        <button id="loginButton" onclick="toggleLoginModal()">Login</button>
+        <button id="add-new-spot">Add New Spot</button>
     </header>
-    <div class="container">
-        <button class="add-location" onclick="openAddLocationModal()">Add New Location</button>
-        <div id="locations-container"></div>
-    </div>
 
-    <!-- Add Location Modal -->
-    <div id="addLocationModal" class="modal">
+    <main>
+        <div id="dashboard">
+            <!-- Reviews will be loaded here -->
+        </div>
+    </main>
+
+    <div id="review-form" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeAddLocationModal()">&times;</span>
-            <h2>Add a New Location</h2>
-            <form id="addLocationForm">
-                <label for="locationName">Location Name:</label>
-                <input type="text" id="locationName" name="locationName" required>
-
-                <label for="locationImages">Images:</label>
-                <input type="file" id="locationImages" name="locationImages" accept="image/*" multiple required>
-
-                <label for="locationRating">Rating:</label>
-                <select id="locationRating" name="locationRating" required>
-                    <option value="1">★☆☆☆☆</option>
-                    <option value="2">★★☆☆☆</option>
-                    <option value="3">★★★☆☆</option>
-                    <option value="4">★★★★☆</option>
-                    <option value="5">★★★★★</option>
-                </select>
-
-                <label for="locationReview">Review:</label>
-                <textarea id="locationReview" name="locationReview" required></textarea>
-
-                <button type="submit">Save Location</button>
+            <span class="close">&times;</span>
+            <h2>Add a New Spot</h2>
+            <form id="new-review-form">
+                <label for="spot-image">Image:</label>
+                <input type="file" id="spot-image" accept="image/*" required><br>
+                <label for="spot-name">Name:</label>
+                <input type="text" id="spot-name" required><br>
+                <label for="spot-rating">Rating:</label>
+                <input type="number" id="spot-rating" min="1" max="5" required><br>
+                <label for="spot-review">Review:</label>
+                <textarea id="spot-review" required></textarea><br>
+                <button type="submit">Save</button>
             </form>
         </div>
     </div>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
+    <div id="full-review" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                
-                <button type="submit">Login</button>
-            </form>
+            <span class="close">&times;</span>
+            <div id="full-review-content">
+                <!-- Full review details will be loaded here -->
+            </div>
         </div>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
