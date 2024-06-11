@@ -1,65 +1,79 @@
-let loggedIn = false;
+document.addEventListener('DOMContentLoaded', () => {
+    const addNewSpotButton = document.getElementById('add-new-spot');
+    const reviewFormModal = document.getElementById('review-form');
+    const fullReviewModal = document.getElementById('full-review');
+    const closeButtons = document.querySelectorAll('.close');
+    const newReviewForm = document.getElementById('new-review-form');
+    const dashboard = document.getElementById('dashboard');
+    
+    let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
-document.getElementById('addLocationForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    function saveReviews() {
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+    }
 
-    const locationName = document.getElementById('locationName').value;
-    const locationImages = document.getElementById('locationImages').files;
-    const locationRating = document.getElementById('locationRating').value;
-    const locationReview = document.getElementById('locationReview').value;
+    function displayReviews() {
+        dashboard.innerHTML = '';
+        reviews.forEach((review, index) => {
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('review-card');
+            reviewCard.innerHTML = `
+                <img src="${review.image}" alt="${review.name}">
+                <h3>${review.name}</h3>
+                <p>Rating: ${review.rating}</p>
+                <p>${review.review.substring(0, 30)}...</p>
+            `;
+            reviewCard.addEventListener('click', () => showFullReview(index));
+            dashboard.appendChild(reviewCard);
+        });
+    }
 
-    const imagePromises = Array.from(locationImages).map(file => {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                resolve(e.target.result);
-            };
-            reader.readAsDataURL(file);
+    function showFullReview(index) {
+        const review = reviews[index];
+        const fullReviewContent = document.getElementById('full-review-content');
+        fullReviewContent.innerHTML = `
+            <img src="${review.image}" alt="${review.name}" style="width: 100%; border-radius: 10px;">
+            <h2>${review.name}</h2>
+            <p>Rating: ${review.rating}</p>
+            <p>${review.review}</p>
+        `;
+        fullReviewModal.style.display = 'block';
+    }
+
+    addNewSpotButton.addEventListener('click', () => {
+        reviewFormModal.style.display = 'block';
+    });
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            reviewFormModal.style.display = 'none';
+            fullReviewModal.style.display = 'none';
         });
     });
 
-    Promise.all(imagePromises).then(images => {
-        const newLocation = {
-            name: locationName,
-            images: images,
-            rating: '★'.repeat(locationRating) + '☆'.repeat(5 - locationRating),
-            review: locationReview
+    newReviewForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const spotImage = document.getElementById('spot-image').files[0];
+        const spotName = document.getElementById('spot-name').value;
+        const spotRating = document.getElementById('spot-rating').value;
+        const spotReview = document.getElementById('spot-review').value;
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const review = {
+                image: reader.result,
+                name: spotName,
+                rating: spotRating,
+                review: spotReview
+            };
+            reviews.push(review);
+            saveReviews();
+            displayReviews();
+            reviewFormModal.style.display = 'none';
+            newReviewForm.reset();
         };
-        addLocationCard(newLocation);
-        closeAddLocationModal();
+        reader.readAsDataURL(spotImage);
     });
+
+    displayReviews();
 });
-
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    // For simplicity, assume login always succeeds
-    loggedIn = true;
-    document.getElementById('loginButton').innerText = 'Logout';
-    closeLoginModal();
-});
-
-document.getElementById('loginButton').addEventListener('click', function() {
-    if (loggedIn) {
-        loggedIn = false;
-        document.getElementById('loginButton').innerText = 'Login';
-    } else {
-        toggleLoginModal();
-    }
-});
-
-function addLocationCard(location) {
-    const locationsContainer = document.getElementById('locations-container');
-    
-    const card = document.createElement('div');
-    card.className = 'location-card';
-    card.onclick = function() { toggleReviewDetail(card); };
-
-    location.images.forEach(imageSrc => {
-        const thumbnail = document.createElement('img');
-        thumbnail.src = imageSrc;
-        thumbnail.alt = location.name;
-        thumbnail.className = 'location-thumbnail';
-        card.appendChild(thumbnail);
-    });
-    
-    const info = document
