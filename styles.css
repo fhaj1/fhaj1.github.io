@@ -2,94 +2,60 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9fafb;
-}
-header {
-    background-color: #ff6f61;
-    color: white;
-    padding: 1em;
-    text-align: center;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    background-color: #f0f0f0;
 }
-header button {
-    background-color: #2c3e50;
-    color: white;
-    border: none;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    font-size: 1em;
-    border-radius: 4px;
-}
-.container {
-    padding: 1em;
-    height: calc(100vh - 60px);
-    overflow-y: auto;
-}
-.location-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1em;
-    overflow: hidden;
-    transition: transform 0.2s;
-    cursor: pointer;
-    position: relative;
-}
-.location-card:hover {
-    transform: scale(1.02);
-}
-.location-thumbnail {
+
+header {
     width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-.location-info {
-    padding: 1em;
-}
-.location-info h3 {
-    margin: 0;
-    color: #34495e;
-}
-.location-info p {
-    color: #7f8c8d;
-    margin: 0.5em 0;
-}
-.location-info .rating {
-    color: #f1c40f;
-    font-size: 1.2em;
-}
-.delete-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #e74c3c;
+    background-color: #4CAF50;
     color: white;
-    border: none;
-    padding: 0.5em;
-    cursor: pointer;
-    border-radius: 4px;
-}
-.add-location {
-    background-color: #27ae60;
-    color: white;
-    padding: 0.75em;
+    padding: 15px;
     text-align: center;
-    border-radius: 8px;
-    text-decoration: none;
-    display: block;
-    margin: 1em 0;
+    position: fixed;
+    top: 0;
+}
+
+header button {
+    background-color: white;
+    color: #4CAF50;
     border: none;
+    padding: 10px 20px;
     cursor: pointer;
-    font-size: 1em;
+    border-radius: 5px;
 }
-.add-location:hover {
-    background-color: #229954;
+
+main {
+    margin-top: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
-.review-detail {
-    display: none;
+
+#dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
+
+.review-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.review-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -99,66 +65,30 @@ header button {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
 }
+
 .modal-content {
-    background-color: white;
-    margin: 5% auto;
+    background-color: #fff;
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
-    border-radius: 8px;
+    border-radius: 10px;
 }
+
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
 }
+
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
-form {
-    display: flex;
-    flex-direction: column;
-}
-form label {
-    margin-top: 1em;
-    color: #2c3e50;
-}
-form input, form textarea, form select, form button {
-    margin-top: 0.5em;
-    padding: 0.5em;
-    font-size: 1em;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-form button {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 1em;
-}
-form button:hover {
-    background-color: #229954;
-}
-@media (min-width: 600px) {
-    .location-card {
-        display: flex;
-        align-items: center;
-    }
-    .location-thumbnail {
-        width: 150px;
-        height: 150px;
-    }
-    .location-info {
-        padding: 1em;
-    }
 }
