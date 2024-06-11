@@ -1,24 +1,49 @@
+let loggedIn = false;
+
 document.getElementById('addLocationForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const locationName = document.getElementById('locationName').value;
-    const locationImage = document.getElementById('locationImage').files[0];
+    const locationImages = document.getElementById('locationImages').files;
     const locationRating = document.getElementById('locationRating').value;
     const locationReview = document.getElementById('locationReview').value;
 
-    if (locationImage) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const newLocation = {
-                name: locationName,
-                image: e.target.result,
-                rating: '★'.repeat(locationRating) + '☆'.repeat(5 - locationRating),
-                review: locationReview
+    const imagePromises = Array.from(locationImages).map(file => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                resolve(e.target.result);
             };
-            addLocationCard(newLocation);
-            closeAddLocationModal();
+            reader.readAsDataURL(file);
+        });
+    });
+
+    Promise.all(imagePromises).then(images => {
+        const newLocation = {
+            name: locationName,
+            images: images,
+            rating: '★'.repeat(locationRating) + '☆'.repeat(5 - locationRating),
+            review: locationReview
         };
-        reader.readAsDataURL(locationImage);
+        addLocationCard(newLocation);
+        closeAddLocationModal();
+    });
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    // For simplicity, assume login always succeeds
+    loggedIn = true;
+    document.getElementById('loginButton').innerText = 'Logout';
+    closeLoginModal();
+});
+
+document.getElementById('loginButton').addEventListener('click', function() {
+    if (loggedIn) {
+        loggedIn = false;
+        document.getElementById('loginButton').innerText = 'Login';
+    } else {
+        toggleLoginModal();
     }
 });
 
@@ -28,51 +53,13 @@ function addLocationCard(location) {
     const card = document.createElement('div');
     card.className = 'location-card';
     card.onclick = function() { toggleReviewDetail(card); };
-    
-    const thumbnail = document.createElement('img');
-    thumbnail.src = location.image;
-    thumbnail.alt = location.name;
-    thumbnail.className = 'location-thumbnail';
-    
-    const info = document.createElement('div');
-    info.className = 'location-info';
-    
-    const name = document.createElement('h3');
-    name.innerText = location.name;
-    
-    const rating = document.createElement('div');
-    rating.className = 'rating';
-    rating.innerText = location.rating;
-    
-    const shortReview = document.createElement('p');
-    shortReview.innerText = location.review.length > 30 ? location.review.substring(0, 27) + '...' : location.review;
-    
-    const fullReview = document.createElement('div');
-    fullReview.className = 'review-detail';
-    const reviewText = document.createElement('p');
-    reviewText.innerText = location.review;
-    fullReview.appendChild(reviewText);
 
-    info.appendChild(name);
-    info.appendChild(rating);
-    info.appendChild(shortReview);
-
-    card.appendChild(thumbnail);
-    card.appendChild(info);
-    card.appendChild(fullReview);
+    location.images.forEach(imageSrc => {
+        const thumbnail = document.createElement('img');
+        thumbnail.src = imageSrc;
+        thumbnail.alt = location.name;
+        thumbnail.className = 'location-thumbnail';
+        card.appendChild(thumbnail);
+    });
     
-    locationsContainer.appendChild(card);
-}
-
-function toggleReviewDetail(card) {
-    const reviewDetail = card.querySelector('.review-detail');
-    reviewDetail.style.display = reviewDetail.style.display === 'none' || !reviewDetail.style.display ? 'block' : 'none';
-}
-
-function openAddLocationModal() {
-    document.getElementById('addLocationModal').style.display = 'block';
-}
-
-function closeAddLocationModal() {
-    document.getElementById('addLocationModal').style.display = 'none';
-}
+    const info = document
