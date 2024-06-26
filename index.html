@@ -19,15 +19,22 @@
                 <div class="image-placeholder">image</div>
                 <div class="rating">
                     <label for="rating">Rating:</label>
-                    <span class="stars">★★★☆☆</span>
+                    <div class="stars" id="stars">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
                 </div>
                 <div class="description">
                     <label for="description">Description:</label>
                     <input type="text" id="description" name="description" placeholder="text">
-                    <button type="submit">Submit</button>
+                    <button type="submit" id="submitBtn">Submit</button>
                 </div>
             </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
