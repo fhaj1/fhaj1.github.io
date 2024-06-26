@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', () => {
             selectedRating = star.getAttribute('data-value');
             stars.forEach(s => s.classList.remove('selected'));
-            for(let i = 0; i < selectedRating; i++) {
+            for (let i = 0; i < selectedRating; i++) {
                 stars[i].classList.add('selected');
             }
         });
@@ -14,8 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('submitBtn').addEventListener('click', () => {
         const description = document.getElementById('description').value;
-        if(selectedRating && description) {
-            alert(`Rating: ${selectedRating}\nDescription: ${description}`);
+        if (selectedRating && description) {
+            document.getElementById('feedbackRating').innerText = '★'.repeat(selectedRating) + '☆'.repeat(5 - selectedRating);
+            document.getElementById('feedbackDescription').innerText = description;
+            document.getElementById('feedback').style.display = 'block';
         } else {
             alert('Please provide a rating and description.');
         }
